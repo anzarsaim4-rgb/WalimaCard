@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dawat-e-Walima | Hafiz Mohd. Junaid & Umme Salma</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Amiri, Scheherazade New, Cinzel Decorative, Great Vibes, Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,600&family=Scheherazade+New:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              100: '#FAF4D3',
+              200: '#F5E8A9',
+              300: '#EBD170',
+              400: '#DFC049',
+              500: '#D4AF37',
+              600: '#B89428',
+              700: '#8E711A',
+              800: '#644F0E'
+            },
+            royal: {
+              emerald: '#0a231e',
+              deepGreen: '#051411',
+              accent: '#113a32',
+              wax: '#8b1e1e'
+            }
+          },
+          fontFamily: {
+            arabic: ['Amiri', 'serif'],
+            urdu: ['Scheherazade New', 'serif'],
+            cinzel: ['Cinzel Decorative', 'serif'],
+            serif: ['Playfair Display', 'serif'],
+            script: ['Great Vibes', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-royal-emerald {
+      background: radial-gradient(circle at 50% 30%, #123d34 0%, #081d19 55%, #030d0b 100%);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF6BD 0%, #D4AF37 35%, #F59E0B 70%, #FFEBA3 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShimmer 4s linear infinite;
+    }
+
+    @keyframes goldShimmer {
+      to { background-position: 200% center; }
+    }
+
+    @keyframes shimmerAnim {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-badge {
+      background: linear-gradient(90deg, rgba(212,175,55,0.08) 0%, rgba(253,230,138,0.35) 50%, rgba(212,175,55,0.08) 100%);
+      background-size: 200% 100%;
+      animation: shimmerAnim 3s infinite linear;
+    }
+
+    .perspective-1000 { perspective: 1200px; }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 290px;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      clip-path: polygon(0% 0%, 100% 0%, 50% 55%);
+      background: linear-gradient(180deg, #14493e 0%, #0d322b 100%);
+      border-top: 2px solid #dfc049;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s ease;
+      z-index: 30;
+    }
+
+    .envelope-pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #09211c 0%, #061814 100%);
+      border: 2px solid #cca12d;
+      border-radius: 12px;
+      clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0, 50% 55%);
+      z-index: 25;
+      box-shadow: 0 15px 35px -5px rgba(0,0,0,0.8), 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: #061a15;
+      border-radius: 12px;
+      border: 1px solid #7c6218;
+      z-index: 5;
+    }
+
+    .envelope-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 2;
+    }
+
+    .wax-seal {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+      transition: transform 0.3s ease, opacity 0.4s ease;
+    }
+    .wax-seal:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+    }
+
+    .invitation-card {
+      transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-stagger-1 { animation: fadeInUp 0.8s ease 0.2s both; }
+    .animate-stagger-2 { animation: fadeInUp 0.8s ease 0.4s both; }
+    .animate-stagger-3 { animation: fadeInUp 0.8s ease 0.6s both; }
+    .animate-stagger-4 { animation: fadeInUp 0.8s ease 0.8s both; }
+    .animate-stagger-5 { animation: fadeInUp 0.8s ease 1.0s both; }
+    .animate-stagger-6 { animation: fadeInUp 0.8s ease 1.2s both; }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(212,175,55,0.4)); }
+      50% { transform: scale(1.08); filter: drop-shadow(0 0 14px rgba(253,230,138,0.8)); }
+    }
+    .pulse-ring { animation: pulseGlow 2.5s infinite ease-in-out; }
+
+    @keyframes speakerPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); filter: drop-shadow(0 0 8px #f59e0b); }
+    }
+    .speaking-active { animation: speakerPulse 1.2s infinite ease-in-out; }
+
+    #scratchBoxContainer { touch-action: none; user-select: none; }
+    #venueScratchCanvas { cursor: crosshair; touch-action: none; border-radius: 0.75rem; }
+    #petalsCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 10; }
+  </style>
+</head>
+
+<body class="bg-royal-emerald text-amber-50 min-h-screen relative overflow-x-hidden font-serif antialiased selection:bg-gold-500 selection:text-black">
+
+  <canvas id="petalsCanvas"></canvas>
+
+  <!-- Background Music Element -->
+  <audio id="weddingBgMusic" loop preload="auto">
+    <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_festival_music.ogg" type="audio/ogg">
+    <source src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=indian-traditional-background-music-122839.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Top Fixed Bar -->
+  <header class="fixed top-3 inset-x-0 z-50 max-w-xl mx-auto px-4 flex justify-between items-center pointer-events-none">
+    <div class="pointer-events-auto bg-black/60 backdrop-blur-md border border-gold-500/30 rounded-full px-3 py-1.5 flex items-center gap-2 shadow-lg text-xs">
+      <button id="langToggleBtn" class="text-gold-300 hover:text-white font-medium transition-colors flex items-center gap-1.5">
+        <span id="langLabel" class="bg-gold-500 text-black px-2 py-0.5 rounded-full font-bold">اردو</span>
+        <span class="text-[11px] text-gray-300">Urdu View</span>
+      </button>
+    </div>
+
+    <div class="pointer-events-auto flex items-center gap-2">
+      <!-- Voice Dua Button (Nikah Dua Player) -->
+      <button id="voiceDuaBtn" title="Play Groom & Bride Voice Dua" class="bg-black/60 backdrop-blur-md border border-gold-400/60 text-gold-300 hover:text-white px-3 py-1.5 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-1.5">
+        <span id="voiceDuaIcon" class="text-xs">🎙️</span>
+        <span id="voiceDuaLabel" class="text-[11px] font-bold">Voice Dua</span>
+      </button>
+
+      <button id="recloseEnvelopeBtn" class="hidden bg-black/60 backdrop-blur-md border border-gold-500/40 text-gold-300 hover:text-white text-xs px-3 py-1.5 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-1">
+        <span>✉️ Re-Seal</span>
+      </button>
+      
+      <button id="musicToggleBtn" title="Play Wedding Music" class="bg-black/60 backdrop-blur-md border border-gold-500/40 text-gold-300 hover:text-gold-200 p-2.5 rounded-full shadow-lg transition-transform active:scale-90 flex items-center justify-center">
+        <span id="musicIcon" class="text-sm">🎵</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="relative z-20 min-h-screen py-16 px-3 sm:px-6 flex flex-col items-center justify-center">
+
+    <!-- STAGE 1: ENVELOPE -->
+    <div id="envelopeSection" class="perspective-1000 my-auto flex flex-col items-center text-center transition-all duration-700">
+      <div class="mb-4 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-gold-300 px-4 py-1.5 rounded-full bg-black/60 border border-gold-500/40 shimmer-badge">
+        <span>🌙</span> Dawat-e-Walima Invitation <span>✨</span>
+      </div>
+
+      <div id="envelopeContainer" class="envelope-wrapper cursor-pointer">
+        <div class="envelope-back flex items-center justify-center p-6 text-center">
+          <p class="text-gold-400 font-cinzel text-xs tracking-widest uppercase opacity-70">
+            Royal Islamic Wedding Invitation
+          </p>
+        </div>
+
+        <div class="absolute inset-x-4 top-2 h-44 bg-gradient-to-b from-[#184a40] to-[#0d2a24] rounded-t-lg border-t-2 border-x-2 border-gold-500/50 shadow-inner z-10 opacity-80 pointer-events-none"></div>
+
+        <div id="envelopeFlap" class="envelope-flap"></div>
+
+        <div class="envelope-pocket flex flex-col justify-end p-5 text-center">
+          <p class="text-[11px] uppercase tracking-widest text-gold-300/80 font-serif">To Respected Guests</p>
+          <h3 class="font-cinzel text-base sm:text-lg text-white font-bold gold-gradient-text">Hafiz Junaid &amp; Salma</h3>
+          <p class="text-[10px] text-amber-200/70 mb-1">25 October 2026</p>
+        </div>
+
+        <div id="waxSealBtn" class="wax-seal absolute top-[53%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-gradient-to-tr from-[#7a1818] via-[#a72828] to-[#c23b3b] border-2 border-gold-400 flex flex-col items-center justify-center cursor-pointer z-40 text-gold-200">
+          <svg class="w-6 h-6 fill-current text-gold-300" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+          </svg>
+          <span class="text-[8px] tracking-wider uppercase font-bold text-amber-100 mt-0.5">OPEN</span>
+        </div>
+      </div>
+
+      <button id="openEnvelopeAction" class="mt-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-gold-600 via-gold-500 to-gold-400 text-black font-bold text-xs shadow-lg hover:scale-105 active:scale-95 transition-all">
+        <span>✉️ Tap Seal to Open Invitation</span>
+      </button>
+    </div>
+
+    <!-- STAGE 2: WEDDING CARD -->
+    <div id="weddingCardWrapper" class="invitation-card hidden opacity-0 transform scale-95 w-full max-w-lg bg-[#0e2c26] text-amber-50 rounded-2xl shadow-2xl border-2 border-gold-500/60 p-1 sm:p-2.5">
+      
+      <div class="relative bg-[#081e19] rounded-xl border border-gold-500/40 p-4 sm:p-7 text-center overflow-hidden">
+        
+        <div class="absolute top-2 left-2 w-8 h-8 border-t-2 border-l-2 border-gold-400/80 pointer-events-none"></div>
+        <div class="absolute top-2 right-2 w-8 h-8 border-t-2 border-r-2 border-gold-400/80 pointer-events-none"></div>
+        <div class="absolute bottom-2 left-2 w-8 h-8 border-b-2 border-l-2 border-gold-400/80 pointer-events-none"></div>
+        <div class="absolute bottom-2 right-2 w-8 h-8 border-b-2 border-r-2 border-gold-400/80 pointer-events-none"></div>
+
+        <div class="flex justify-center mb-1 animate-stagger-1">
+          <svg class="w-44 h-8 text-gold-400 fill-current opacity-85" viewBox="0 0 200 40">
+            <path d="M0,35 C60,35 70,5 100,5 C130,5 140,35 200,35 L200,40 L0,40 Z" />
+            <circle cx="100" cy="12" r="3" />
+            <circle cx="92" cy="15" r="1.5" />
+            <circle cx="108" cy="15" r="1.5" />
+          </svg>
+        </div>
+
+        <div class="my-2 animate-stagger-1">
+          <p class="font-arabic text-2xl sm:text-3xl text-gold-300 leading-relaxed drop-shadow-md">
+            بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
+          </p>
+          <p class="text-[11px] sm:text-xs tracking-widest uppercase text-gold-200/90 font-medium mt-0.5">
+            In the name of 'ALLAH' the most beneficent &amp; Merciful
+          </p>
+        </div>
+
+        <div id="urduCouplet" class="my-3 py-2 px-3 bg-black/35 rounded-lg border border-gold-500/20 text-xs font-urdu leading-loose text-gold-200 animate-stagger-2">
+          <div>خوشی فرش پہ ہوگی چرچہ عرش پر ہوگا • ستـاروں میں چمک ہوگی چاند بھی چمکتا ہوگا</div>
+          <div>ایک سنت ادا ہوگی ایک فرض ادا ہوگا • واللہ کتنی خوشی ہوگی جس وقت نکاح ہوگا</div>
+        </div>
+
+        <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto my-2"></div>
+
+        <div class="space-y-1 my-3 animate-stagger-3">
+          <p class="text-[11px] uppercase tracking-widest text-gold-400 font-medium">Under the auspicious blessing of</p>
+          <h2 class="text-xl sm:text-2xl font-bold font-serif gold-gradient-text">Mrs. &amp; Mr. Abdur Rahim Khan</h2>
+          <p class="text-[12px] sm:text-[13px] text-amber-100/90 italic max-w-sm mx-auto">
+            Request the pleasure of your company on the auspicious occasion of the Marriage ceremony of their Son &amp; Daughter
+          </p>
+        </div>
+
+        <!-- Couple Details Box with Voice Dua Trigger -->
+        <div id="coupleVoiceCard" class="my-3 py-3 bg-gold-500/10 rounded-xl border border-gold-500/30 backdrop-blur-sm space-y-2.5 animate-stagger-4 cursor-pointer hover:border-gold-400 transition-all" title="Click to hear voice dua for the couple">
+          
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-gold-500/20 text-gold-300 border border-gold-500/30 text-[10px] uppercase font-bold tracking-wider mb-1">
+            <span>🔊</span> Tap couple names to hear Dua
+          </div>
+
+          <!-- Groom -->
+          <div class="px-2">
+            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Groom / نور چشم</span>
+            <h3 class="text-xl sm:text-2xl font-cinzel text-white font-bold tracking-wide mt-0.5">
+              Hafiz Mohd. Junaid Khan
+            </h3>
+            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">S/o. Abdur Rahim Khan</p>
+            <p class="text-[10px] text-amber-300/70">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar</p>
+          </div>
+
+          <!-- Weds Indicator -->
+          <div class="flex items-center justify-center gap-3">
+            <span class="h-[1px] w-12 bg-gold-400/50"></span>
+            <div class="flex items-center gap-1 text-gold-300">
+              <span class="pulse-ring inline-block">💍</span>
+              <span class="font-script text-2xl text-gold-300 px-1 transform -rotate-3">weds</span>
+              <span class="pulse-ring inline-block">💍</span>
+            </div>
+            <span class="h-[1px] w-12 bg-gold-400/50"></span>
+          </div>
+
+          <!-- Bride -->
+          <div class="px-2">
+            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Bride / نور چشمی</span>
+            <h3 class="text-xl sm:text-2xl font-cinzel text-white font-bold tracking-wide mt-0.5">
+              Umme Salma Khan
+            </h3>
+            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">D/o. Salahuddin Khan</p>
+            <p class="text-[10px] text-amber-300/70">Vill. &amp; Po. Kohnda, Distt. Basti</p>
+          </div>
+
+          <!-- Audio Voice Dua Display Badge -->
+          <div class="mt-2 pt-2 border-t border-gold-500/20 px-3 text-center">
+            <p class="font-arabic text-gold-300 text-sm sm:text-base leading-relaxed">
+              بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+            </p>
+            <p class="text-[10px] text-amber-200/80 italic font-sans mt-0.5">
+              "Barakallahu laka wa baraka 'alaika wa jama'a bainakuma fee khair"
+            </p>
+          </div>
+        </div>
+
+        <!-- SELECTIVE SCRATCH SECTION -->
+        <div class="my-4 text-center animate-stagger-5">
+          <div class="flex items-center justify-between mb-1 px-1 text-xs">
+            <span class="text-gold-300 font-semibold tracking-wide flex items-center gap-1">
+              <span>✨</span> Programme &amp; Venue Details
+            </span>
+            <span id="scratchStatusBadge" class="text-[11px] text-amber-300 bg-black/40 px-2 py-0.5 rounded border border-gold-500/30">
+              Scratch to Reveal
+            </span>
+          </div>
+
+          <div id="scratchBoxContainer" class="relative rounded-xl border-2 border-gold-400 overflow-hidden shadow-xl bg-gradient-to-r from-amber-950/50 via-gold-900/40 to-amber-950/50">
+            <div id="programmeInnerDetails" class="p-4 relative text-center">
+              <span class="inline-block bg-[#09221d] px-3 py-0.5 text-[10px] text-gold-300 uppercase tracking-widest font-semibold border border-gold-500/50 rounded-full mb-1">
+                Programme • پروگرام
+              </span>
+              
+              <h4 class="text-2xl sm:text-3xl font-serif font-black tracking-wider gold-gradient-text uppercase">
+                Dawat-e-walima
+              </h4>
+              <p class="font-urdu text-lg text-amber-200 font-bold -mt-0.5 mb-2">دعوتِ ولیمہ</p>
+              
+              <div class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-white my-2">
+                <div class="flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-full border border-gold-500/40 shadow-sm w-full sm:w-auto justify-center">
+                  <svg class="w-4 h-4 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  <span>25 Oct. 2026, Sunday (اتوار)</span>
+                </div>
+
+                <div class="flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-full border border-gold-500/40 shadow-sm w-full sm:w-auto justify-center">
+                  <svg class="w-4 h-4 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  <span>At: 12:00 Noon (۱۲ بجے دن)</span>
+                </div>
+              </div>
+
+              <div class="mt-2.5 pt-2 border-t border-gold-500/20 text-xs">
+                <p class="text-gold-300 font-bold uppercase tracking-wider text-[11px] mb-0.5">📍 Venue / بمقام :</p>
+                <p class="text-white font-medium">Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar (U.P.)</p>
+                <p class="font-urdu text-amber-200/90 text-sm mt-0.5">مقام: جمدی پوسٹ کسمہی ضلع سدھارتھ نگر</p>
+              </div>
+            </div>
+
+            <canvas id="venueScratchCanvas" class="absolute inset-0 w-full h-full z-30 transition-opacity duration-700"></canvas>
+          </div>
+
+          <div id="quickRevealControl" class="mt-2 flex items-center justify-center gap-3 text-xs text-gold-300/80 font-sans">
+            <span>Progress: <strong id="scratchPercent" class="text-gold-300 font-bold">0%</strong></span>
+            <span>•</span>
+            <button id="quickRevealBtn" class="underline hover:text-white transition-colors cursor-pointer text-gold-400 font-semibold">
+              ✨ Quick Reveal
+            </button>
+          </div>
+        </div>
+
+        <!-- RSVP & WBC -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left my-4 text-[11px] sm:text-xs animate-stagger-6">
+          <div class="p-3 bg-black/35 rounded-lg border border-gold-500/20">
+            <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">R.S.V.P. (چشم براہاں)</h5>
+            <p class="text-amber-100/80 leading-relaxed text-[10.5px]">
+              Abdur Gaffar Khan, Mohd. Nazeer Khan, Abdul Jabbar Khan, Raziuddin Khan, Mohd. Nafees Khan, Zaheer Ahmad Khan, Zubair Ahmad Khan, Mohd. Javed Khan, Mohd. Asif Khan &amp; All Relatives &amp; Friends.
+            </p>
+          </div>
+
+          <div class="p-3 bg-black/35 rounded-lg border border-gold-500/20 flex flex-col justify-between">
+            <div>
+              <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">W.B.C. From (الداعی)</h5>
+              <p class="font-bold text-sm text-white">Abdur Rahim Khan</p>
+              <p class="text-amber-200/80 text-[10.5px]">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar</p>
+            </div>
+            
+            <div class="mt-2 pt-2 border-t border-gold-500/20 flex flex-wrap items-center justify-between gap-1">
+              <span class="text-gold-300 text-[11px] font-semibold">Mob: 8874996550</span>
+              <div class="flex gap-1.5">
+                <a href="tel:8874996550" class="px-2 py-0.5 bg-gold-500 hover:bg-gold-400 text-black text-[10px] font-bold rounded">
+                  Call 1
+                </a>
+                <a href="tel:8601306535" class="px-2 py-0.5 bg-gold-600 hover:bg-gold-500 text-white text-[10px] font-bold rounded">
+                  Call 2
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="mt-4 pt-4 border-t border-gold-500/30 flex flex-wrap items-center justify-center gap-2 animate-stagger-6">
+          <button id="addToCalBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-gradient-to-r from-gold-600 to-gold-500 hover:from-gold-500 hover:to-gold-400 text-black font-bold text-xs shadow-md transition-transform active:scale-95">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Add to Calendar</span>
+          </button>
+
+          <button id="shareWhatsappBtn" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#25D366] hover:bg-[#20ba5a] text-white font-bold text-xs shadow-md transition-transform active:scale-95">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+            <span>Share WhatsApp</span>
+          </button>
+
+          <button id="copyInviteBtn" class="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-black/50 hover:bg-black/70 text-gold-300 border border-gold-500/40 font-semibold text-xs shadow-sm transition-transform active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+            <span id="copyBtnText">Copy Details</span>
+          </button>
+        </div>
+
+        <p class="text-[9.5px] text-gold-400/60 mt-4 tracking-widest uppercase">
+          Chaudhary Anzar Ahmad • Mob: 7666690711
+        </p>
+
+      </div>
+    </div>
+
+    <!-- Notification Toast Message -->
+    <div id="toast" class="fixed bottom-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-gold-500 text-black px-4 py-2 rounded-full font-bold text-xs shadow-2xl flex items-center gap-2">
+      <span id="toastMsg">Notification message</span>
+    </div>
+
+  </main>
+
+  <script>
+    /* =========================================================
+   1. VOICE DUA SYNTHESIZER (URDU/INDIAN ACCENT + ARABIC DUA)
+   ========================================================= */
+const voiceDuaBtn = document.getElementById('voiceDuaBtn');
+const voiceDuaIcon = document.getElementById('voiceDuaIcon');
+const voiceDuaLabel = document.getElementById('voiceDuaLabel');
+const coupleVoiceCard = document.getElementById('coupleVoiceCard');
+let isSpeakingDua = false;
+
+// Device me maujood Urdu, Indian aur Arabic aawazein dhoondhna
+function getBestVoice(langPrefixes) {
+  const voices = window.speechSynthesis.getVoices();
+  for (const prefix of langPrefixes) {
+    const found = voices.find(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(prefix.toLowerCase()));
+    if (found) return found;
+  }
+  return null;
+}
+
+function speakWeddingDua() {
+  if (!('speechSynthesis' in window)) {
+    showToast('Aapke browser me voice support nahi hai');
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  // Background music thoda dheema karein taaki dua saaf sunai de
+  if (bgMusic && !bgMusic.paused) {
+    bgMusic.volume = 0.2;
+  }
+
+  isSpeakingDua = true;
+  voiceDuaIcon.classList.add('speaking-active');
+  voiceDuaLabel.textContent = 'Reciting...';
+
+  // 1. Dulha-Dulhan ka naam (Urdu / Hindustani lehze me)
+  const introText = "حافظ محمد جنید خان اور اُمّ سلمیٰ خان";
+  const introUtterance = new SpeechSynthesisUtterance(introText);
+  
+  // Urdu ya Indian voice priority (ur-PK, ur, hi-IN, en-IN)
+  const urduOrIndianVoice = getBestVoice(['ur-pk', 'ur', 'hi-in', 'en-in']);
+  if (urduOrIndianVoice) {
+    introUtterance.voice = urduOrIndianVoice;
+    introUtterance.lang = urduOrIndianVoice.lang;
+  } else {
+    // Fallback romanized Urdu
+    introUtterance.text = "Hafiz Mohammad Junaid Khan aur Umme Salma Khan";
+    introUtterance.lang = 'hi-IN';
+  }
+  introUtterance.rate = 0.85;
+  introUtterance.pitch = 0.95;
+
+  // 2. Masnoon Nikah Dua (Khaalis Arabic lehze me)
+  const arabicDuaText = "بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ";
+  const duaUtterance = new SpeechSynthesisUtterance(arabicDuaText);
+  
+  const arabicVoice = getBestVoice(['ar-sa', 'ar-eg', 'ar']);
+  if (arabicVoice) {
+    duaUtterance.voice = arabicVoice;
+    duaUtterance.lang = arabicVoice.lang;
+  } else {
+    duaUtterance.lang = 'ar-SA';
+  }
+  duaUtterance.rate = 0.80; // Thehrav aur adab ke sath dua
+  duaUtterance.pitch = 0.90;
+
+  // Jab dua khatam ho jaye to music wapas normal karein
+  duaUtterance.onend = () => {
+    isSpeakingDua = false;
+    voiceDuaIcon.classList.remove('speaking-active');
+    voiceDuaLabel.textContent = 'Voice Dua';
+    if (bgMusic && !bgMusic.paused) {
+      bgMusic.volume = 1.0;
+    }
+  };
+
+  duaUtterance.onerror = () => {
+    isSpeakingDua = false;
+    voiceDuaIcon.classList.remove('speaking-active');
+    voiceDuaLabel.textContent = 'Voice Dua';
+    if (bgMusic && !bgMusic.paused) bgMusic.volume = 1.0;
+  };
+
+  // Pehle naam bolega, uske 400ms baad dua padhega
+  introUtterance.onend = () => {
+    setTimeout(() => {
+      window.speechSynthesis.speak(duaUtterance);
+    }, 400);
+  };
+
+  window.speechSynthesis.speak(introUtterance);
+  showToast('🤲 حافظ جنید اور اُمّ سلمیٰ کے لیے دعا');
+}
+
+// Browser me voices load hone ka intezar karein
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+  };
+}
+
+voiceDuaBtn.addEventListener('click', speakWeddingDua);
+coupleVoiceCard.addEventListener('click', speakWeddingDua);
+
+    /* =========================================================
+       2. BACKGROUND MUSIC CONTROLLER
+       ========================================================= */
+    const bgMusic = document.getElementById('weddingBgMusic');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    let isMusicPlaying = false;
+
+    function playMusic() {
+      bgMusic.play().then(() => {
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+        musicToggleBtn.classList.add('border-gold-400');
+        showToast('🎶 Playing Wedding Music');
+      }).catch((e) => console.log('Autoplay handled:', e));
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+      isMusicPlaying = false;
+      musicIcon.textContent = '🎵';
+      musicToggleBtn.classList.remove('border-gold-400');
+      showToast('🔇 Music Paused');
+    }
+
+    musicToggleBtn.addEventListener('click', () => {
+      if (isMusicPlaying) pauseMusic();
+      else playMusic();
+    });
+
+    /* =========================================================
+       3. ENVELOPE OPEN / CLOSE HANDLER
+       ========================================================= */
+    const envelopeSection = document.getElementById('envelopeSection');
+    const envelopeContainer = document.getElementById('envelopeContainer');
+    const waxSealBtn = document.getElementById('waxSealBtn');
+    const openEnvelopeAction = document.getElementById('openEnvelopeAction');
+    const weddingCardWrapper = document.getElementById('weddingCardWrapper');
+    const recloseEnvelopeBtn = document.getElementById('recloseEnvelopeBtn');
+
+    let envelopeIsOpen = false;
+
+    function openEnvelope() {
+      if (envelopeIsOpen) return;
+      envelopeIsOpen = true;
+
+      // Start music
+      if (!isMusicPlaying) {
+        playMusic();
+      }
+
+      envelopeContainer.classList.add('envelope-open');
+      waxSealBtn.style.opacity = '0';
+      waxSealBtn.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        envelopeSection.style.transform = 'translateY(120px) scale(0.8)';
+        envelopeSection.style.opacity = '0';
+
+        setTimeout(() => {
+          envelopeSection.style.display = 'none';
+          weddingCardWrapper.style.display = 'block';
+
+          requestAnimationFrame(() => {
+            weddingCardWrapper.classList.remove('hidden');
+            weddingCardWrapper.style.opacity = '1';
+            weddingCardWrapper.style.transform = 'scale(1)';
+            recloseEnvelopeBtn.classList.remove('hidden');
+
+            initScratchCanvas();
+
+            // Automatic Voice Dua as the card glides in!
+            setTimeout(() => {
+              speakWeddingDua();
+            }, 800);
+          });
+        }, 500);
+      }, 650);
+    }
+
+    function recloseEnvelope() {
+      if (!envelopeIsOpen) return;
+      envelopeIsOpen = false;
+      window.speechSynthesis.cancel();
+
+      weddingCardWrapper.style.opacity = '0';
+      weddingCardWrapper.style.transform = 'scale(0.95)';
+      recloseEnvelopeBtn.classList.add('hidden');
+
+      setTimeout(() => {
+        weddingCardWrapper.style.display = 'none';
+        envelopeSection.style.display = 'flex';
+
+        requestAnimationFrame(() => {
+          envelopeSection.style.transform = 'translateY(0) scale(1)';
+          envelopeSection.style.opacity = '1';
+          envelopeContainer.classList.remove('envelope-open');
+          waxSealBtn.style.opacity = '1';
+          waxSealBtn.style.pointerEvents = 'auto';
+        });
+      }, 400);
+    }
+
+    waxSealBtn.addEventListener('click', openEnvelope);
+    openEnvelopeAction.addEventListener('click', openEnvelope);
+    recloseEnvelopeBtn.addEventListener('click', recloseEnvelope);
+
+    /* =========================================================
+       4. SELECTIVE SCRATCH CANVAS
+       ========================================================= */
+    const scratchCanvas = document.getElementById('venueScratchCanvas');
+    const scratchCtx = scratchCanvas.getContext('2d');
+    const scratchPercentEl = document.getElementById('scratchPercent');
+    const scratchStatusBadge = document.getElementById('scratchStatusBadge');
+    const quickRevealBtn = document.getElementById('quickRevealBtn');
+    const quickRevealControl = document.getElementById('quickRevealControl');
+
+    let isScratching = false;
+    let isVenueRevealed = false;
+    let sLastX = 0, sLastY = 0;
+
+    function initScratchCanvas() {
+      if (isVenueRevealed) return;
+      const rect = scratchCanvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      scratchCanvas.width = rect.width * dpr;
+      scratchCanvas.height = rect.height * dpr;
+      scratchCtx.scale(dpr, dpr);
+
+      drawGoldenFoil(rect.width, rect.height);
+    }
+
+    function drawGoldenFoil(w, h) {
+      if (isVenueRevealed) return;
+      scratchCtx.globalCompositeOperation = 'source-over';
+
+      const grad = scratchCtx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#593F07');
+      grad.addColorStop(0.2, '#D4AF37');
+      grad.addColorStop(0.5, '#FFF7B8');
+      grad.addColorStop(0.8, '#B8860B');
+      grad.addColorStop(1, '#4A3508');
+
+      scratchCtx.fillStyle = grad;
+      scratchCtx.fillRect(0, 0, w, h);
+
+      scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+      for (let i = 0; i < 45; i++) {
+        const x = (Math.sin(i * 123) * 0.5 + 0.5) * w;
+        const y = (Math.cos(i * 456) * 0.5 + 0.5) * h;
+        scratchCtx.beginPath();
+        scratchCtx.arc(x, y, 1.6, 0, Math.PI * 2);
+        scratchCtx.fill();
+      }
+
+      scratchCtx.strokeStyle = 'rgba(255, 245, 180, 0.5)';
+      scratchCtx.lineWidth = 2;
+      scratchCtx.strokeRect(8, 8, w - 16, h - 16);
+
+      scratchCtx.fillStyle = '#261701';
+      scratchCtx.textAlign = 'center';
+      scratchCtx.font = 'bold 13px sans-serif';
+      scratchCtx.fillText('✨ SCRATCH HERE WITH FINGER ✨', w / 2, h / 2 - 10);
+
+      scratchCtx.fillStyle = '#422802';
+      scratchCtx.font = 'bold 11px sans-serif';
+      scratchCtx.fillText('To Reveal: Date, Venue & Walima Details', w / 2, h / 2 + 12);
+
+      scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      scratchCtx.font = '10px serif';
+      scratchCtx.fillText('دعوتِ ولیمہ تاریخ و بمقام', w / 2, h / 2 + 32);
+    }
+
+    function getCanvasCoords(e) {
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function doScratch(x, y) {
+      scratchCtx.globalCompositeOperation = 'destination-out';
+      scratchCtx.beginPath();
+      scratchCtx.arc(x, y, 22, 0, Math.PI * 2);
+      scratchCtx.fill();
+
+      scratchCtx.lineWidth = 44;
+      scratchCtx.lineCap = 'round';
+      scratchCtx.beginPath();
+      scratchCtx.moveTo(sLastX, sLastY);
+      scratchCtx.lineTo(x, y);
+      scratchCtx.stroke();
+    }
+
+    function checkScratchPercent() {
+      if (isVenueRevealed) return;
+      try {
+        const dpr = window.devicePixelRatio || 1;
+        const w = scratchCanvas.width;
+        const h = scratchCanvas.height;
+        const step = 8 * Math.round(dpr);
+        const imgData = scratchCtx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+
+        let total = 0, cleared = 0;
+        for (let y = 0; y < h; y += step) {
+          for (let x = 0; x < w; x += step) {
+            const idx = (y * w + x) * 4;
+            total++;
+            if (data[idx + 3] === 0) cleared++;
+          }
+        }
+
+        const percentage = Math.round((cleared / total) * 100);
+        scratchPercentEl.textContent = `${percentage}%`;
+
+        if (percentage >= 45) revealVenueWithConfetti();
+      } catch (err) {}
+    }
+
+    function revealVenueWithConfetti() {
+      if (isVenueRevealed) return;
+      isVenueRevealed = true;
+
+      scratchCanvas.style.opacity = '0';
+      quickRevealControl.style.opacity = '0';
+      scratchStatusBadge.textContent = '✓ Revealed';
+      scratchStatusBadge.classList.replace('text-amber-300', 'text-green-400');
+
+      setTimeout(() => {
+        scratchCanvas.style.display = 'none';
+        quickRevealControl.style.display = 'none';
+      }, 700);
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 75,
+          spread: 60,
+          origin: { y: 0.65 },
+          colors: ['#D4AF37', '#FFF1A8', '#10B981', '#E11D48', '#F59E0B']
+        });
+      }
+      showToast('✨ Walima & Venue Details Revealed! Mubarak! ✨');
+    }
+
+    scratchCanvas.addEventListener('mousedown', (e) => {
+      if (isVenueRevealed) return;
+      isScratching = true;
+      const coords = getCanvasCoords(e);
+      sLastX = coords.x; sLastY = coords.y;
+      doScratch(coords.x, coords.y);
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isScratching || isVenueRevealed) return;
+      const coords = getCanvasCoords(e);
+      doScratch(coords.x, coords.y);
+      sLastX = coords.x; sLastY = coords.y;
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isScratching) return;
+      isScratching = false;
+      checkScratchPercent();
+    });
+
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      if (isVenueRevealed) return;
+      isScratching = true;
+      const coords = getCanvasCoords(e);
+      sLastX = coords.x; sLastY = coords.y;
+      doScratch(coords.x, coords.y);
+    }, { passive: true });
+    window.addEventListener('touchmove', (e) => {
+      if (!isScratching || isVenueRevealed) return;
+      if (e.cancelable) e.preventDefault();
+      const coords = getCanvasCoords(e);
+      doScratch(coords.x, coords.y);
+      sLastX = coords.x; sLastY = coords.y;
+    }, { passive: false });
+    window.addEventListener('touchend', () => {
+      if (!isScratching) return;
+      isScratching = false;
+      checkScratchPercent();
+    });
+
+    quickRevealBtn.addEventListener('click', revealVenueWithConfetti);
+
+    /* =========================================================
+       5. PETALS CANVAS ANIMATION
+       ========================================================= */
+    const petalsCanvas = document.getElementById('petalsCanvas');
+    const petalsCtx = petalsCanvas.getContext('2d');
+    let petals = [];
+
+    function resizePetalsCanvas() {
+      petalsCanvas.width = window.innerWidth;
+      petalsCanvas.height = window.innerHeight;
+    }
+
+    class FallingPetal {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = Math.random() * petalsCanvas.width;
+        this.y = -20 - Math.random() * 40;
+        this.size = Math.random() * 8 + 5;
+        this.speedY = Math.random() * 1.2 + 0.6;
+        this.speedX = Math.random() * 1.4 - 0.7;
+        this.angle = Math.random() * Math.PI * 2;
+        this.angularSpeed = (Math.random() - 0.5) * 0.025;
+        this.isGoldDust = Math.random() > 0.6;
+        this.opacity = Math.random() * 0.5 + 0.4;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += Math.sin(this.angle) * 0.7 + this.speedX;
+        this.angle += this.angularSpeed;
+        if (this.y > petalsCanvas.height + 25) this.reset();
+      }
+      draw() {
+        petalsCtx.save();
+        petalsCtx.translate(this.x, this.y);
+        petalsCtx.rotate(this.angle);
+        petalsCtx.globalAlpha = this.opacity;
+        if (this.isGoldDust) {
+          petalsCtx.fillStyle = '#FDE68A';
+          petalsCtx.beginPath();
+          petalsCtx.arc(0, 0, this.size / 3.5, 0, Math.PI * 2);
+          petalsCtx.fill();
+        } else {
+          petalsCtx.fillStyle = '#9f1239';
+          petalsCtx.beginPath();
+          petalsCtx.moveTo(0, 0);
+          petalsCtx.bezierCurveTo(-this.size, -this.size / 2, -this.size / 2, this.size, 0, this.size);
+          petalsCtx.bezierCurveTo(this.size / 2, this.size, this.size, -this.size / 2, 0, 0);
+          petalsCtx.fill();
+        }
+        petalsCtx.restore();
+      }
+    }
+
+    function initPetals() {
+      petals = [];
+      for (let i = 0; i < 26; i++) {
+        const p = new FallingPetal();
+        p.y = Math.random() * window.innerHeight;
+        petals.push(p);
+      }
+    }
+
+    function animatePetals() {
+      petalsCtx.clearRect(0, 0, petalsCanvas.width, petalsCanvas.height);
+      for (let p of petals) {
+        p.update();
+        p.draw();
+      }
+      requestAnimationFrame(animatePetals);
+    }
+
+    /* =========================================================
+       6. ACTIONS (CALENDAR, WHATSAPP, COPY, TOAST)
+       ========================================================= */
+    document.getElementById('addToCalBtn').addEventListener('click', () => {
+      const eventTitle = 'Dawat-e-Walima: Hafiz Mohd. Junaid & Umme Salma';
+      const eventDesc = 'Dawat-e-walima ceremony hosted by Mrs. & Mr. Abdur Rahim Khan at Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar. Contact: 8874996550, 8601306535';
+      const eventLoc = 'Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar, UP, India';
+
+      const icsData = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Walima Card//EN',
+        'BEGIN:VEVENT',
+        'UID:' + Date.now() + '@walima-junaid-salma.com',
+        'DTSTAMP:20261025T063000Z',
+        'DTSTART:20261025T063000Z',
+        'DTEND:20261025T113000Z',
+        'SUMMARY:' + eventTitle,
+        'DESCRIPTION:' + eventDesc,
+        'LOCATION:' + eventLoc,
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.setAttribute('download', 'Dawat_e_Walima_Junaid_Salma.ics');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('📅 Event Added to Calendar (25 Oct 2026)');
+    });
+
+    document.getElementById('shareWhatsappBtn').addEventListener('click', () => {
+      const msg = `🌸 *Dawat-e-Walima Invitation* 🌸\n\n` +
+        `بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\n` +
+        `Mrs. & Mr. Abdur Rahim Khan cordially invite you to the auspicious marriage celebrations of:\n\n` +
+        `🤵 *Hafiz Mohd. Junaid Khan*\n` +
+        `        ❤️ *Weds* ❤️\n` +
+        `👰 *Umme Salma Khan*\n\n` +
+        `✨ *Programme:* Dawat-e-walima (دعوتِ ولیمہ)\n` +
+        `📅 *Date:* 25 October 2026, Sunday\n` +
+        `⏰ *Time:* 12:00 Noon\n` +
+        `📍 *Venue:* Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\n` +
+        `📞 *Contact:* 8874996550, 8601306535\n\n` +
+        `_Chashm-e-Baraahan: All Relatives & Friends._`;
+
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
+    const copyInviteBtn = document.getElementById('copyInviteBtn');
+    const copyBtnText = document.getElementById('copyBtnText');
+    copyInviteBtn.addEventListener('click', () => {
+      const summary = `DAWAT-E-WALIMA INVITATION\nDate: 25 Oct 2026, Sunday (12:00 Noon)\nGroom: Hafiz Mohd. Junaid Khan\nBride: Umme Salma Khan\nHost: Mrs. & Mr. Abdur Rahim Khan\nVenue: Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\nPhone: 8874996550, 8601306535`;
+      const dummy = document.createElement('textarea');
+      dummy.value = summary;
+      document.body.appendChild(dummy);
+      dummy.select();
+      try {
+        document.execCommand('copy');
+        copyBtnText.textContent = 'Copied!';
+        showToast('📋 Details copied to clipboard!');
+        setTimeout(() => { copyBtnText.textContent = 'Copy Details'; }, 2200);
+      } catch (e) {}
+      document.body.removeChild(dummy);
+    });
+
+    const langToggleBtn = document.getElementById('langToggleBtn');
+    const langLabel = document.getElementById('langLabel');
+    const urduCouplet = document.getElementById('urduCouplet');
+    let isUrduMode = false;
+    langToggleBtn.addEventListener('click', () => {
+      isUrduMode = !isUrduMode;
+      if (isUrduMode) {
+        langLabel.textContent = 'English';
+        urduCouplet.classList.add('ring-2', 'ring-gold-400', 'bg-gold-950/60');
+        showToast('اردو اشعار اور تفصیلات نمایاں کی گئیں');
+      } else {
+        langLabel.textContent = 'اردو';
+        urduCouplet.classList.remove('ring-2', 'ring-gold-400', 'bg-gold-950/60');
+        showToast('English & Bilingual Layout');
+      }
+    });
+
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    window.addEventListener('load', () => {
+      resizePetalsCanvas();
+      initPetals();
+      animatePetals();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      resizePetalsCanvas();
+      if (envelopeIsOpen && !isVenueRevealed) {
+        initScratchCanvas();
+      }
+    });
+  </script>
+</body>
+</html>
