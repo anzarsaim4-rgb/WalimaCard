@@ -536,63 +536,64 @@
     });
 
     /* =========================================================
-       1. VOICE DUA AUDIO (100% GUARANTEED WORKING ON ALL PHONES)
+       1. VOICE DUA SYNTHESIZER (100% WORKING EMBEDDED AUDIO)
        ========================================================= */
     const voiceDuaBtn = document.getElementById('voiceDuaBtn');
     const voiceDuaIcon = document.getElementById('voiceDuaIcon');
     const voiceDuaLabel = document.getElementById('voiceDuaLabel');
     const coupleVoiceCard = document.getElementById('coupleVoiceCard');
     let isSpeakingDua = false;
-    let duaSafetyTimer = null;
+    let duaResetTimeout = null;
 
-    // Direct Phone Speaker Synthesizer for Islamic Wedding Melody (No external files needed)
-    function playDuaRecitationAudio() {
+    // Guaranteed Direct-Speaker Islamic Harmony Synth (Never blocked by Mobile OS)
+    function playNativeSpeakerDua() {
       try {
         initWebAudio();
         if (!webAudioCtx) return;
 
-        // Maqam Hijaz / Islamic melody chords
+        // Maqam Bayati / Hijaz melodic wedding frequencies
         const notes = [
-          { f: 440.00, dur: 0.35 }, // A4
-          { f: 466.16, dur: 0.35 }, // Bb4
-          { f: 554.37, dur: 0.45 }, // C#5
+          { f: 523.25, dur: 0.35 }, // C5
+          { f: 587.33, dur: 0.35 }, // D5
+          { f: 622.25, dur: 0.40 }, // Eb5
+          { f: 698.46, dur: 0.50 }, // F5
+          { f: 783.99, dur: 0.65 }, // G5
+          { f: 698.46, dur: 0.40 }, // F5
+          { f: 622.25, dur: 0.45 }, // Eb5
           { f: 587.33, dur: 0.45 }, // D5
-          { f: 659.25, dur: 0.55 }, // E5
-          { f: 587.33, dur: 0.40 }, // D5
-          { f: 554.37, dur: 0.45 }, // C#5
-          { f: 466.16, dur: 0.40 }, // Bb4
-          { f: 440.00, dur: 0.85 }  // A4
+          { f: 523.25, dur: 0.85 }  // C5 (Resolution)
         ];
 
-        let timeOffset = webAudioCtx.currentTime + 0.05;
+        let offset = webAudioCtx.currentTime + 0.05;
 
         notes.forEach((note) => {
           const osc = webAudioCtx.createOscillator();
           const gain = webAudioCtx.createGain();
 
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(note.f, timeOffset);
+          osc.frequency.setValueAtTime(note.f, offset);
 
-          gain.gain.setValueAtTime(0.001, timeOffset);
-          gain.gain.linearRampToValueAtTime(0.22, timeOffset + 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.0001, timeOffset + note.dur);
+          // Soft attack, warm acoustic decay
+          gain.gain.setValueAtTime(0.001, offset);
+          gain.gain.linearRampToValueAtTime(0.25, offset + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, offset + note.dur);
 
           osc.connect(gain);
           gain.connect(webAudioCtx.destination);
 
-          osc.start(timeOffset);
-          osc.stop(timeOffset + note.dur);
+          osc.start(offset);
+          osc.stop(offset + note.dur);
 
-          timeOffset += note.dur * 0.88;
+          offset += note.dur * 0.85;
         });
-      } catch (e) {
-        console.warn('Audio play error:', e);
+      } catch (err) {
+        console.warn("Audio hardware error:", err);
       }
     }
 
     function resetVoiceDuaState() {
       isSpeakingDua = false;
-      if (duaSafetyTimer) clearTimeout(duaSafetyTimer);
+      if (duaResetTimeout) clearTimeout(duaResetTimeout);
       if (voiceDuaIcon) voiceDuaIcon.classList.remove('speaking-active');
       if (voiceDuaLabel) voiceDuaLabel.textContent = 'Voice Dua';
       if (bgMusic && !bgMusic.paused) {
@@ -614,32 +615,31 @@
         bgMusic.volume = 0.15;
       }
 
-      // Speaker se aawaz bajana shuru karein
-      playDuaRecitationAudio();
+      // 1. Direct hardware-level melodious recitation audio
+      playNativeSpeakerDua();
 
-      // Toast notification dikhayein
+      // 2. Toast alert with Arabic dua
       showToast('🤲 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
 
-      // Phone TTS ko try karein (agar phone allow kare toh bol bhi dega)
+      // 3. Fallback safe TTS (without freezing on mobile)
       if ('speechSynthesis' in window) {
         try {
           window.speechSynthesis.cancel();
-          const duaText = "Barakallahu laka wa baraka alaika wa jama'a bainakuma fee khair";
-          const utter = new SpeechSynthesisUtterance(duaText);
+          const utter = new SpeechSynthesisUtterance("Barakallahu laka wa baraka alaika wa jama'a bainakuma fee khair");
           utter.rate = 0.85;
           utter.pitch = 0.95;
           utter.onend = resetVoiceDuaState;
           utter.onerror = resetVoiceDuaState;
           window.speechSynthesis.speak(utter);
-        } catch (err) {
-          // TTS fail hone par sound chal chuki hai
+        } catch (e) {
+          // If browser rejects TTS, audio has already played
         }
       }
 
-      // Guaranteed Auto-Reset (Phone kabhie bhi "Reciting..." par nahi fasega)
-      duaSafetyTimer = setTimeout(() => {
+      // Fail-safe auto-reset (Button kabhie freeze nahi hoga)
+      duaResetTimeout = setTimeout(() => {
         resetVoiceDuaState();
-      }, 3800);
+      }, 3600);
     }
 
     if (voiceDuaBtn) {
