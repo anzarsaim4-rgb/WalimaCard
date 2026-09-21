@@ -173,9 +173,9 @@
   <canvas id="petalsCanvas"></canvas>
 
   <!-- Background Music Element -->
-  <audio id="weddingBgMusic" loop preload="auto">
-    <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_festival_music.ogg" type="audio/ogg">
+  <audio id="weddingBgMusic" loop preload="auto" playsinline>
     <source src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=indian-traditional-background-music-122839.mp3" type="audio/mpeg">
+    <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_festival_music.ogg" type="audio/ogg">
   </audio>
 
   <!-- Top Fixed Bar -->
@@ -460,127 +460,62 @@
 
   </main>
 
+  <!-- JAVASCRIPT -->
   <script>
     /* =========================================================
-   1. VOICE DUA SYNTHESIZER (URDU/INDIAN ACCENT + ARABIC DUA)
-   ========================================================= */
-const voiceDuaBtn = document.getElementById('voiceDuaBtn');
-const voiceDuaIcon = document.getElementById('voiceDuaIcon');
-const voiceDuaLabel = document.getElementById('voiceDuaLabel');
-const coupleVoiceCard = document.getElementById('coupleVoiceCard');
-let isSpeakingDua = false;
-
-// Device me maujood Urdu, Indian aur Arabic aawazein dhoondhna
-function getBestVoice(langPrefixes) {
-  const voices = window.speechSynthesis.getVoices();
-  for (const prefix of langPrefixes) {
-    const found = voices.find(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(prefix.toLowerCase()));
-    if (found) return found;
-  }
-  return null;
-}
-
-function speakWeddingDua() {
-  if (!('speechSynthesis' in window)) {
-    showToast('Aapke browser me voice support nahi hai');
-    return;
-  }
-
-  window.speechSynthesis.cancel();
-
-  // Background music thoda dheema karein taaki dua saaf sunai de
-  if (bgMusic && !bgMusic.paused) {
-    bgMusic.volume = 0.2;
-  }
-
-  isSpeakingDua = true;
-  voiceDuaIcon.classList.add('speaking-active');
-  voiceDuaLabel.textContent = 'Reciting...';
-
-  // 1. Dulha-Dulhan ka naam (Urdu / Hindustani lehze me)
-  const introText = "حافظ محمد جنید خان اور اُمّ سلمیٰ خان";
-  const introUtterance = new SpeechSynthesisUtterance(introText);
-  
-  // Urdu ya Indian voice priority (ur-PK, ur, hi-IN, en-IN)
-  const urduOrIndianVoice = getBestVoice(['ur-pk', 'ur', 'hi-in', 'en-in']);
-  if (urduOrIndianVoice) {
-    introUtterance.voice = urduOrIndianVoice;
-    introUtterance.lang = urduOrIndianVoice.lang;
-  } else {
-    // Fallback romanized Urdu
-    introUtterance.text = "Hafiz Mohammad Junaid Khan aur Umme Salma Khan";
-    introUtterance.lang = 'hi-IN';
-  }
-  introUtterance.rate = 0.85;
-  introUtterance.pitch = 0.95;
-
-  // 2. Masnoon Nikah Dua (Khaalis Arabic lehze me)
-  const arabicDuaText = "بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ";
-  const duaUtterance = new SpeechSynthesisUtterance(arabicDuaText);
-  
-  const arabicVoice = getBestVoice(['ar-sa', 'ar-eg', 'ar']);
-  if (arabicVoice) {
-    duaUtterance.voice = arabicVoice;
-    duaUtterance.lang = arabicVoice.lang;
-  } else {
-    duaUtterance.lang = 'ar-SA';
-  }
-  duaUtterance.rate = 0.80; // Thehrav aur adab ke sath dua
-  duaUtterance.pitch = 0.90;
-
-  // Jab dua khatam ho jaye to music wapas normal karein
-  duaUtterance.onend = () => {
-    isSpeakingDua = false;
-    voiceDuaIcon.classList.remove('speaking-active');
-    voiceDuaLabel.textContent = 'Voice Dua';
-    if (bgMusic && !bgMusic.paused) {
-      bgMusic.volume = 1.0;
-    }
-  };
-
-  duaUtterance.onerror = () => {
-    isSpeakingDua = false;
-    voiceDuaIcon.classList.remove('speaking-active');
-    voiceDuaLabel.textContent = 'Voice Dua';
-    if (bgMusic && !bgMusic.paused) bgMusic.volume = 1.0;
-  };
-
-  // Pehle naam bolega, uske 400ms baad dua padhega
-  introUtterance.onend = () => {
-    setTimeout(() => {
-      window.speechSynthesis.speak(duaUtterance);
-    }, 400);
-  };
-
-  window.speechSynthesis.speak(introUtterance);
-  showToast('🤲 حافظ جنید اور اُمّ سلمیٰ کے لیے دعا');
-}
-
-// Browser me voices load hone ka intezar karein
-if ('speechSynthesis' in window) {
-  window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-  };
-}
-
-voiceDuaBtn.addEventListener('click', speakWeddingDua);
-coupleVoiceCard.addEventListener('click', speakWeddingDua);
-
-    /* =========================================================
-       2. BACKGROUND MUSIC CONTROLLER
+       AUDIO & WEB AUDIO CONTEXT (Mobile Autoplay Unblocker)
        ========================================================= */
     const bgMusic = document.getElementById('weddingBgMusic');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     let isMusicPlaying = false;
+    let webAudioCtx = null;
+
+    function initWebAudio() {
+      try {
+        if (!webAudioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) webAudioCtx = new AudioContext();
+        }
+        if (webAudioCtx && webAudioCtx.state === 'suspended') {
+          webAudioCtx.resume();
+        }
+      } catch (e) {}
+    }
+
+    function playHarmonicChime() {
+      try {
+        initWebAudio();
+        if (!webAudioCtx) return;
+        const freqs = [392, 523.25, 659.25, 783.99, 1046.50];
+        freqs.forEach((freq, i) => {
+          const osc = webAudioCtx.createOscillator();
+          const gain = webAudioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, webAudioCtx.currentTime + i * 0.09);
+          gain.gain.setValueAtTime(0.001, webAudioCtx.currentTime + i * 0.09);
+          gain.gain.linearRampToValueAtTime(0.08, webAudioCtx.currentTime + i * 0.09 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, webAudioCtx.currentTime + i * 0.09 + 1.2);
+          osc.connect(gain);
+          gain.connect(webAudioCtx.destination);
+          osc.start(webAudioCtx.currentTime + i * 0.09);
+          osc.stop(webAudioCtx.currentTime + i * 0.09 + 1.3);
+        });
+      } catch (e) {}
+    }
 
     function playMusic() {
+      initWebAudio();
       bgMusic.play().then(() => {
         isMusicPlaying = true;
         musicIcon.textContent = '🔊';
         musicToggleBtn.classList.add('border-gold-400');
         showToast('🎶 Playing Wedding Music');
-      }).catch((e) => console.log('Autoplay handled:', e));
+      }).catch(() => {
+        playHarmonicChime();
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
+      });
     }
 
     function pauseMusic() {
@@ -591,9 +526,133 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
       showToast('🔇 Music Paused');
     }
 
-    musicToggleBtn.addEventListener('click', () => {
+    musicToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (isMusicPlaying) pauseMusic();
       else playMusic();
+    });
+
+    /* =========================================================
+       1. VOICE DUA SYNTHESIZER (URDU/INDIAN ACCENT + ARABIC DUA)
+       ========================================================= */
+    const voiceDuaBtn = document.getElementById('voiceDuaBtn');
+    const voiceDuaIcon = document.getElementById('voiceDuaIcon');
+    const voiceDuaLabel = document.getElementById('voiceDuaLabel');
+    const coupleVoiceCard = document.getElementById('coupleVoiceCard');
+    let isSpeakingDua = false;
+    let availableVoices = [];
+
+    function populateVoices() {
+      if ('speechSynthesis' in window) {
+        availableVoices = window.speechSynthesis.getVoices();
+      }
+    }
+    populateVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    function getBestVoice(langPrefixes) {
+      if (!availableVoices || availableVoices.length === 0) populateVoices();
+      for (const prefix of langPrefixes) {
+        const found = availableVoices.find(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(prefix.toLowerCase()));
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function speakWeddingDua() {
+      initWebAudio();
+
+      if (!('speechSynthesis' in window) || window.speechSynthesis === undefined) {
+        playHarmonicChime();
+        showToast('🤲 بارك الله لكما وبارك عليكما');
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      if (bgMusic && !bgMusic.paused) {
+        bgMusic.volume = 0.2;
+      }
+
+      isSpeakingDua = true;
+      voiceDuaIcon.classList.add('speaking-active');
+      voiceDuaLabel.textContent = 'Reciting...';
+
+      // 1. Dulha-Dulhan ka naam
+      const introText = "حافظ محمد جنید خان اور اُمّ سلمیٰ خان";
+      const introUtterance = new SpeechSynthesisUtterance(introText);
+      
+      const urduOrIndianVoice = getBestVoice(['ur-pk', 'ur', 'hi-in', 'en-in']);
+      if (urduOrIndianVoice) {
+        introUtterance.voice = urduOrIndianVoice;
+        introUtterance.lang = urduOrIndianVoice.lang;
+      } else {
+        introUtterance.text = "Hafiz Mohammad Junaid Khan aur Umme Salma Khan";
+        introUtterance.lang = 'hi-IN';
+      }
+      introUtterance.rate = 0.85;
+      introUtterance.pitch = 0.95;
+
+      // 2. Masnoon Nikah Dua
+      const arabicDuaText = "بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ";
+      const duaUtterance = new SpeechSynthesisUtterance(arabicDuaText);
+      
+      const arabicVoice = getBestVoice(['ar-sa', 'ar-eg', 'ar']);
+      if (arabicVoice) {
+        duaUtterance.voice = arabicVoice;
+        duaUtterance.lang = arabicVoice.lang;
+      } else {
+        duaUtterance.lang = 'ar-SA';
+      }
+      duaUtterance.rate = 0.80;
+      duaUtterance.pitch = 0.90;
+
+      duaUtterance.onend = () => {
+        isSpeakingDua = false;
+        voiceDuaIcon.classList.remove('speaking-active');
+        voiceDuaLabel.textContent = 'Voice Dua';
+        if (bgMusic && !bgMusic.paused) {
+          bgMusic.volume = 1.0;
+        }
+      };
+
+      duaUtterance.onerror = () => {
+        isSpeakingDua = false;
+        voiceDuaIcon.classList.remove('speaking-active');
+        voiceDuaLabel.textContent = 'Voice Dua';
+        if (bgMusic && !bgMusic.paused) bgMusic.volume = 1.0;
+      };
+
+      introUtterance.onend = () => {
+        setTimeout(() => {
+          try {
+            window.speechSynthesis.speak(duaUtterance);
+          } catch(e) {
+            playHarmonicChime();
+          }
+        }, 400);
+      };
+
+      try {
+        window.speechSynthesis.speak(introUtterance);
+        showToast('🤲 حافظ جنید اور اُمّ سلمیٰ کے لیے دعا');
+      } catch (e) {
+        playHarmonicChime();
+        isSpeakingDua = false;
+        voiceDuaIcon.classList.remove('speaking-active');
+        voiceDuaLabel.textContent = 'Voice Dua';
+      }
+    }
+
+    voiceDuaBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      speakWeddingDua();
+    });
+
+    coupleVoiceCard.addEventListener('click', () => {
+      speakWeddingDua();
     });
 
     /* =========================================================
@@ -612,7 +671,7 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
       if (envelopeIsOpen) return;
       envelopeIsOpen = true;
 
-      // Start music
+      // Start music on first touch
       if (!isMusicPlaying) {
         playMusic();
       }
@@ -637,7 +696,6 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
 
             initScratchCanvas();
 
-            // Automatic Voice Dua as the card glides in!
             setTimeout(() => {
               speakWeddingDua();
             }, 800);
@@ -649,7 +707,7 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
     function recloseEnvelope() {
       if (!envelopeIsOpen) return;
       envelopeIsOpen = false;
-      window.speechSynthesis.cancel();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
       weddingCardWrapper.style.opacity = '0';
       weddingCardWrapper.style.transform = 'scale(0.95)';
@@ -791,6 +849,8 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
     function revealVenueWithConfetti() {
       if (isVenueRevealed) return;
       isVenueRevealed = true;
+
+      playHarmonicChime();
 
       scratchCanvas.style.opacity = '0';
       quickRevealControl.style.opacity = '0';
@@ -960,24 +1020,24 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
     });
 
     document.getElementById('shareWhatsappBtn').addEventListener('click', () => {
-  const cardUrl = "https://walima-card-tau.vercel.app/";
+      const cardUrl = "https://walima-card-tau.vercel.app/";
 
-  const msg = `🌸 *Dawat-e-Walima Invitation* 🌸\n\n` +
-    `بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\n` +
-    `Mrs. & Mr. Abdur Rahim Khan cordially invite you to the auspicious marriage celebrations of:\n\n` +
-    `🤵 *Hafiz Mohd. Junaid Khan*\n` +
-    `        ❤️ *Weds* ❤️\n` +
-    `👰 *Umme Salma Khan*\n\n` +
-    `✨ *Interactive Animated Card Dekhne Ke Liye Niche Link Par Click Karein:*\n` +
-    `👉 ${cardUrl}\n\n` +
-    `📅 *Date:* 25 October 2026, Sunday\n` +
-    `⏰ *Time:* 12:00 Noon\n` +
-    `📍 *Venue:* Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\n` +
-    `📞 *Contact:* 8874996550, 8601306535\n\n` +
-    `_Chashm-e-Baraahan: All Relatives & Friends._`;
+      const msg = `🌸 *Dawat-e-Walima Invitation* 🌸\n\n` +
+        `بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\n` +
+        `Mrs. & Mr. Abdur Rahim Khan cordially invite you to the auspicious marriage celebrations of:\n\n` +
+        `🤵 *Hafiz Mohd. Junaid Khan*\n` +
+        `        ❤️ *Weds* ❤️\n` +
+        `👰 *Umme Salma Khan*\n\n` +
+        `✨ *Interactive Animated Card Dekhne Ke Liye Niche Link Par Click Karein:*\n` +
+        `👉 ${cardUrl}\n\n` +
+        `📅 *Date:* 25 October 2026, Sunday\n` +
+        `⏰ *Time:* 12:00 Noon\n` +
+        `📍 *Venue:* Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\n` +
+        `📞 *Contact:* 8874996550, 8601306535\n\n` +
+        `_Chashm-e-Baraahan: All Relatives & Friends._`;
 
-  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
-});
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    });
 
     const copyInviteBtn = document.getElementById('copyInviteBtn');
     const copyBtnText = document.getElementById('copyBtnText');
@@ -1029,9 +1089,7 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
       resizePetalsCanvas();
       initPetals();
       animatePetals();
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.getVoices();
-      }
+      populateVoices();
     });
 
     window.addEventListener('resize', () => {
