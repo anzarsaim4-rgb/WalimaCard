@@ -178,6 +178,11 @@
     <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_festival_music.ogg" type="audio/ogg">
   </audio>
 
+  <!-- Masnoon Nikah Dua Audio Stream -->
+  <audio id="duaAudio" preload="auto" playsinline>
+    <source src="https://everyayah.com/data/translations/ur.khan/001001.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- Top Fixed Bar -->
   <header class="fixed top-3 inset-x-0 z-50 max-w-xl mx-auto px-4 flex justify-between items-center pointer-events-none">
     <div class="pointer-events-auto bg-black/60 backdrop-blur-md border border-gold-500/30 rounded-full px-3 py-1.5 flex items-center gap-2 shadow-lg text-xs">
@@ -460,12 +465,12 @@
 
   </main>
 
-  <!-- JAVASCRIPT -->
   <script>
     /* =========================================================
        AUDIO & WEB AUDIO CONTEXT (Mobile Autoplay Unblocker)
        ========================================================= */
     const bgMusic = document.getElementById('weddingBgMusic');
+    const duaAudio = document.getElementById('duaAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     let isMusicPlaying = false;
@@ -510,7 +515,6 @@
         isMusicPlaying = true;
         musicIcon.textContent = '🔊';
         musicToggleBtn.classList.add('border-gold-400');
-        showToast('🎶 Playing Wedding Music');
       }).catch(() => {
         playHarmonicChime();
         isMusicPlaying = true;
@@ -523,7 +527,6 @@
       isMusicPlaying = false;
       musicIcon.textContent = '🎵';
       musicToggleBtn.classList.remove('border-gold-400');
-      showToast('🔇 Music Paused');
     }
 
     musicToggleBtn.addEventListener('click', (e) => {
@@ -533,116 +536,93 @@
     });
 
     /* =========================================================
-       1. VOICE DUA SYNTHESIZER (URDU/INDIAN ACCENT + ARABIC DUA)
+       1. VOICE DUA SYNTHESIZER (MOBILE HARD-CODED AUDIO + TTS FALLBACK)
        ========================================================= */
     const voiceDuaBtn = document.getElementById('voiceDuaBtn');
     const voiceDuaIcon = document.getElementById('voiceDuaIcon');
     const voiceDuaLabel = document.getElementById('voiceDuaLabel');
     const coupleVoiceCard = document.getElementById('coupleVoiceCard');
     let isSpeakingDua = false;
-    let availableVoices = [];
-
-    function populateVoices() {
-      if ('speechSynthesis' in window) {
-        availableVoices = window.speechSynthesis.getVoices();
-      }
-    }
-    populateVoices();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = populateVoices;
-    }
-
-    function getBestVoice(langPrefixes) {
-      if (!availableVoices || availableVoices.length === 0) populateVoices();
-      for (const prefix of langPrefixes) {
-        const found = availableVoices.find(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(prefix.toLowerCase()));
-        if (found) return found;
-      }
-      return null;
-    }
 
     function speakWeddingDua() {
       initWebAudio();
-
-      if (!('speechSynthesis' in window) || window.speechSynthesis === undefined) {
-        playHarmonicChime();
-        showToast('🤲 بارك الله لكما وبارك عليكما');
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-
-      if (bgMusic && !bgMusic.paused) {
-        bgMusic.volume = 0.2;
-      }
-
+      if (isSpeakingDua) return;
       isSpeakingDua = true;
+
       voiceDuaIcon.classList.add('speaking-active');
       voiceDuaLabel.textContent = 'Reciting...';
 
-      // 1. Dulha-Dulhan ka naam
-      const introText = "حافظ محمد جنید خان اور اُمّ سلمیٰ خان";
-      const introUtterance = new SpeechSynthesisUtterance(introText);
-      
-      const urduOrIndianVoice = getBestVoice(['ur-pk', 'ur', 'hi-in', 'en-in']);
-      if (urduOrIndianVoice) {
-        introUtterance.voice = urduOrIndianVoice;
-        introUtterance.lang = urduOrIndianVoice.lang;
-      } else {
-        introUtterance.text = "Hafiz Mohammad Junaid Khan aur Umme Salma Khan";
-        introUtterance.lang = 'hi-IN';
+      // Background music dheema karein taaki dua saaf sune
+      if (bgMusic && !bgMusic.paused) {
+        bgMusic.volume = 0.15;
       }
-      introUtterance.rate = 0.85;
-      introUtterance.pitch = 0.95;
 
-      // 2. Masnoon Nikah Dua
-      const arabicDuaText = "بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ";
-      const duaUtterance = new SpeechSynthesisUtterance(arabicDuaText);
-      
-      const arabicVoice = getBestVoice(['ar-sa', 'ar-eg', 'ar']);
-      if (arabicVoice) {
-        duaUtterance.voice = arabicVoice;
-        duaUtterance.lang = arabicVoice.lang;
-      } else {
-        duaUtterance.lang = 'ar-SA';
-      }
-      duaUtterance.rate = 0.80;
-      duaUtterance.pitch = 0.90;
+      // 1. Pehle TTS se dulha dulhan ka naam bolne ki koshish karein
+      let ttsWorked = false;
+      if ('speechSynthesis' in window && window.speechSynthesis.getVoices) {
+        try {
+          window.speechSynthesis.cancel();
+          const introUtterance = new SpeechSynthesisUtterance("Hafiz Mohammad Junaid Khan aur Umme Salma Khan");
+          introUtterance.lang = 'hi-IN';
+          introUtterance.rate = 0.85;
 
-      duaUtterance.onend = () => {
-        isSpeakingDua = false;
-        voiceDuaIcon.classList.remove('speaking-active');
-        voiceDuaLabel.textContent = 'Voice Dua';
-        if (bgMusic && !bgMusic.paused) {
-          bgMusic.volume = 1.0;
-        }
-      };
+          const duaUtterance = new SpeechSynthesisUtterance("بَارَكَ اللَّهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ");
+          duaUtterance.lang = 'ar-SA';
+          duaUtterance.rate = 0.80;
 
-      duaUtterance.onerror = () => {
-        isSpeakingDua = false;
-        voiceDuaIcon.classList.remove('speaking-active');
-        voiceDuaLabel.textContent = 'Voice Dua';
-        if (bgMusic && !bgMusic.paused) bgMusic.volume = 1.0;
-      };
-
-      introUtterance.onend = () => {
-        setTimeout(() => {
-          try {
+          introUtterance.onend = () => {
             window.speechSynthesis.speak(duaUtterance);
-          } catch(e) {
-            playHarmonicChime();
-          }
-        }, 400);
-      };
+          };
 
-      try {
-        window.speechSynthesis.speak(introUtterance);
-        showToast('🤲 حافظ جنید اور اُمّ سلمیٰ کے لیے دعا');
-      } catch (e) {
+          duaUtterance.onend = () => {
+            finishDuaSpeech();
+          };
+
+          duaUtterance.onerror = () => {
+            playAudioFallback();
+          };
+
+          window.speechSynthesis.speak(introUtterance);
+          ttsWorked = true;
+          showToast('🤲 تلاوتِ دعا برائے دولہا و دلہن');
+        } catch(e) {
+          ttsWorked = false;
+        }
+      }
+
+      // Agar phone ne TTS block kar diya to real audio/chime chalayein
+      if (!ttsWorked) {
+        playAudioFallback();
+      }
+    }
+
+    function playAudioFallback() {
+      // Direct Dua Audio Playback
+      if (duaAudio) {
+        duaAudio.currentTime = 0;
+        duaAudio.play().then(() => {
+          showToast('🤲 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
+          duaAudio.onended = () => {
+            finishDuaSpeech();
+          };
+        }).catch(() => {
+          playHarmonicChime();
+          showToast('🤲 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
+          setTimeout(finishDuaSpeech, 3500);
+        });
+      } else {
         playHarmonicChime();
-        isSpeakingDua = false;
-        voiceDuaIcon.classList.remove('speaking-active');
-        voiceDuaLabel.textContent = 'Voice Dua';
+        showToast('🤲 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
+        setTimeout(finishDuaSpeech, 3500);
+      }
+    }
+
+    function finishDuaSpeech() {
+      isSpeakingDua = false;
+      voiceDuaIcon.classList.remove('speaking-active');
+      voiceDuaLabel.textContent = 'Voice Dua';
+      if (bgMusic && !bgMusic.paused) {
+        bgMusic.volume = 1.0;
       }
     }
 
@@ -672,9 +652,7 @@
       envelopeIsOpen = true;
 
       // Start music on first touch
-      if (!isMusicPlaying) {
-        playMusic();
-      }
+      playMusic();
 
       envelopeContainer.classList.add('envelope-open');
       waxSealBtn.style.opacity = '0';
@@ -696,9 +674,10 @@
 
             initScratchCanvas();
 
+            // Card aane ke turant baad Dua bolna shuru karega
             setTimeout(() => {
               speakWeddingDua();
-            }, 800);
+            }, 600);
           });
         }, 500);
       }, 650);
@@ -708,6 +687,10 @@
       if (!envelopeIsOpen) return;
       envelopeIsOpen = false;
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      if (duaAudio) {
+        duaAudio.pause();
+        duaAudio.currentTime = 0;
+      }
 
       weddingCardWrapper.style.opacity = '0';
       weddingCardWrapper.style.transform = 'scale(0.95)';
@@ -1089,7 +1072,6 @@
       resizePetalsCanvas();
       initPetals();
       animatePetals();
-      populateVoices();
     });
 
     window.addEventListener('resize', () => {
