@@ -960,21 +960,24 @@ coupleVoiceCard.addEventListener('click', speakWeddingDua);
     });
 
     document.getElementById('shareWhatsappBtn').addEventListener('click', () => {
-      const msg = `🌸 *Dawat-e-Walima Invitation* 🌸\n\n` +
-        `بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\n` +
-        `Mrs. & Mr. Abdur Rahim Khan cordially invite you to the auspicious marriage celebrations of:\n\n` +
-        `🤵 *Hafiz Mohd. Junaid Khan*\n` +
-        `        ❤️ *Weds* ❤️\n` +
-        `👰 *Umme Salma Khan*\n\n` +
-        `✨ *Programme:* Dawat-e-walima (دعوتِ ولیمہ)\n` +
-        `📅 *Date:* 25 October 2026, Sunday\n` +
-        `⏰ *Time:* 12:00 Noon\n` +
-        `📍 *Venue:* Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\n` +
-        `📞 *Contact:* 8874996550, 8601306535\n\n` +
-        `_Chashm-e-Baraahan: All Relatives & Friends._`;
+  const cardUrl = "https://walima-card-tau.vercel.app/";
 
-      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
-    });
+  const msg = `🌸 *Dawat-e-Walima Invitation* 🌸\n\n` +
+    `بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ\n\n` +
+    `Mrs. & Mr. Abdur Rahim Khan cordially invite you to the auspicious marriage celebrations of:\n\n` +
+    `🤵 *Hafiz Mohd. Junaid Khan*\n` +
+    `        ❤️ *Weds* ❤️\n` +
+    `👰 *Umme Salma Khan*\n\n` +
+    `✨ *Interactive Animated Card Dekhne Ke Liye Niche Link Par Click Karein:*\n` +
+    `👉 ${cardUrl}\n\n` +
+    `📅 *Date:* 25 October 2026, Sunday\n` +
+    `⏰ *Time:* 12:00 Noon\n` +
+    `📍 *Venue:* Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar\n` +
+    `📞 *Contact:* 8874996550, 8601306535\n\n` +
+    `_Chashm-e-Baraahan: All Relatives & Friends._`;
+
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+});
 
     const copyInviteBtn = document.getElementById('copyInviteBtn');
     const copyBtnText = document.getElementById('copyBtnText');
