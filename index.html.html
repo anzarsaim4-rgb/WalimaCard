@@ -64,14 +64,14 @@
       to { background-position: 200% center; }
     }
 
+    @keyframes shimmerAnim {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
     .shimmer-badge {
       background: linear-gradient(90deg, rgba(212,175,55,0.08) 0%, rgba(253,230,138,0.35) 50%, rgba(212,175,55,0.08) 100%);
       background-size: 200% 100%;
       animation: shimmerAnim 3s infinite linear;
-    }
-    @keyframes shimmerAnim {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
     }
 
     .perspective-1000 { perspective: 1200px; }
@@ -175,7 +175,19 @@
   <!-- Background Music Element -->
   <audio id="weddingBgMusic" loop preload="auto" playsinline>
     <source src="https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f792cb.mp3?filename=indian-traditional-background-music-122839.mp3" type="audio/mpeg">
+    <source src="https://actions.google.com/sounds/v1/ambiences/outdoor_festival_music.ogg" type="audio/ogg">
   </audio>
+
+  <!--
+    Masnoon Nikah Dua - REAL RECORDED ARABIC RECITATION
+    IMPORTANT:
+    Put a verified Qari recording at: /audio/nikah-dua.mp3
+    This is intentionally a local file so mobile browsers can preload it
+    and the invitation does not depend on a third-party stream at open time.
+  -->
+ <audio id="duaAudio" preload="auto" playsinline>
+  <source src="./audio/nikah-dua.mp3" type="audio/mpeg">
+</audio>
 
   <!-- Top Fixed Bar -->
   <header class="fixed top-3 inset-x-0 z-50 max-w-xl mx-auto px-4 flex justify-between items-center pointer-events-none">
@@ -187,8 +199,8 @@
     </div>
 
     <div class="pointer-events-auto flex items-center gap-2">
-      <!-- Voice Dua Button -->
-      <button id="voiceDuaBtn" title="Play Groom & Bride Voice Dua" class="bg-black/60 backdrop-blur-md border border-gold-400/60 text-gold-300 hover:text-white px-3 py-1.5 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-1.5">
+      <!-- Voice Dua Button (Nikah Dua Player) -->
+      <button id="voiceDuaBtn" title="Play the recorded Nikah Dua" class="bg-black/60 backdrop-blur-md border border-gold-400/60 text-gold-300 hover:text-white px-3 py-1.5 rounded-full shadow-lg transition-transform active:scale-95 flex items-center gap-1.5">
         <span id="voiceDuaIcon" class="text-xs">🎙️</span>
         <span id="voiceDuaLabel" class="text-[11px] font-bold">Voice Dua</span>
       </button>
@@ -266,22 +278,22 @@
             بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ
           </p>
           <p class="text-[11px] sm:text-xs tracking-widest uppercase text-gold-200/90 font-medium mt-0.5">
-            In the name of 'ALLAH' the most beneficent &amp; Merciful[cite: 1]
+            In the name of 'ALLAH' the most beneficent &amp; Merciful
           </p>
         </div>
 
         <div id="urduCouplet" class="my-3 py-2 px-3 bg-black/35 rounded-lg border border-gold-500/20 text-xs font-urdu leading-loose text-gold-200 animate-stagger-2">
-          <div>خوشی فرش پہ ہوگی چرچہ عرش پر ہوگا • ستـاروں میں چمک ہوگی چاند بھی چمکتا ہوگا[cite: 1]</div>
-          <div>ایک سنت ادا ہوگی ایک فرض ادا ہوگا • واللہ کتنی خوشی ہوگی جس وقت نکاح ہوگا[cite: 1]</div>
+          <div>خوشی فرش پہ ہوگی چرچہ عرش پر ہوگا • ستـاروں میں چمک ہوگی چاند بھی چمکتا ہوگا</div>
+          <div>ایک سنت ادا ہوگی ایک فرض ادا ہوگا • واللہ کتنی خوشی ہوگی جس وقت نکاح ہوگا</div>
         </div>
 
         <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto my-2"></div>
 
         <div class="space-y-1 my-3 animate-stagger-3">
-          <p class="text-[11px] uppercase tracking-widest text-gold-400 font-medium">Under the auspicious blessing of[cite: 1]</p>
-          <h2 class="text-xl sm:text-2xl font-bold font-serif gold-gradient-text">Mrs. &amp; Mr. Abdur Rahim Khan[cite: 1]</h2>
+          <p class="text-[11px] uppercase tracking-widest text-gold-400 font-medium">Under the auspicious blessing of</p>
+          <h2 class="text-xl sm:text-2xl font-bold font-serif gold-gradient-text">Mrs. &amp; Mr. Abdur Rahim Khan</h2>
           <p class="text-[12px] sm:text-[13px] text-amber-100/90 italic max-w-sm mx-auto">
-            Request the pleasure of your company on the auspicious occasion of the Marriage ceremony of their Son &amp; Daughter[cite: 1]
+            Request the pleasure of your company on the auspicious occasion of the Marriage ceremony of their Son &amp; Daughter
           </p>
         </div>
 
@@ -294,12 +306,12 @@
 
           <!-- Groom -->
           <div class="px-2">
-            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Groom / نور چشم[cite: 1]</span>
+            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Groom / نور چشم</span>
             <h3 class="text-xl sm:text-2xl font-cinzel text-white font-bold tracking-wide mt-0.5">
-              Hafiz Mohd. Junaid Khan[cite: 1]
+              Hafiz Mohd. Junaid Khan
             </h3>
-            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">S/o. Abdur Rahim Khan[cite: 1]</p>
-            <p class="text-[10px] text-amber-300/70">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar[cite: 1]</p>
+            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">S/o. Abdur Rahim Khan</p>
+            <p class="text-[10px] text-amber-300/70">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar</p>
           </div>
 
           <!-- Weds Indicator -->
@@ -307,7 +319,7 @@
             <span class="h-[1px] w-12 bg-gold-400/50"></span>
             <div class="flex items-center gap-1 text-gold-300">
               <span class="pulse-ring inline-block">💍</span>
-              <span class="font-script text-2xl text-gold-300 px-1 transform -rotate-3">weds[cite: 1]</span>
+              <span class="font-script text-2xl text-gold-300 px-1 transform -rotate-3">weds</span>
               <span class="pulse-ring inline-block">💍</span>
             </div>
             <span class="h-[1px] w-12 bg-gold-400/50"></span>
@@ -315,12 +327,12 @@
 
           <!-- Bride -->
           <div class="px-2">
-            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Bride / نور چشمی[cite: 1]</span>
+            <span class="text-[10px] text-gold-400 tracking-wider uppercase font-semibold">Bride / نور چشمی</span>
             <h3 class="text-xl sm:text-2xl font-cinzel text-white font-bold tracking-wide mt-0.5">
-              Umme Salma Khan[cite: 1]
+              Umme Salma Khan
             </h3>
-            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">D/o. Salahuddin Khan[cite: 1]</p>
-            <p class="text-[10px] text-amber-300/70">Vill. &amp; Po. Kohnda, Distt. Basti[cite: 1]</p>
+            <p class="text-[11px] sm:text-xs text-amber-200/80 font-sans">D/o. Salahuddin Khan</p>
+            <p class="text-[10px] text-amber-300/70">Vill. &amp; Po. Kohnda, Distt. Basti</p>
           </div>
 
           <!-- Audio Voice Dua Display Badge -->
@@ -338,7 +350,7 @@
         <div class="my-4 text-center animate-stagger-5">
           <div class="flex items-center justify-between mb-1 px-1 text-xs">
             <span class="text-gold-300 font-semibold tracking-wide flex items-center gap-1">
-              <span>✨</span> Programme &amp; Venue Details[cite: 1]
+              <span>✨</span> Programme &amp; Venue Details
             </span>
             <span id="scratchStatusBadge" class="text-[11px] text-amber-300 bg-black/40 px-2 py-0.5 rounded border border-gold-500/30">
               Scratch to Reveal
@@ -348,34 +360,34 @@
           <div id="scratchBoxContainer" class="relative rounded-xl border-2 border-gold-400 overflow-hidden shadow-xl bg-gradient-to-r from-amber-950/50 via-gold-900/40 to-amber-950/50">
             <div id="programmeInnerDetails" class="p-4 relative text-center">
               <span class="inline-block bg-[#09221d] px-3 py-0.5 text-[10px] text-gold-300 uppercase tracking-widest font-semibold border border-gold-500/50 rounded-full mb-1">
-                Programme • پروگرام[cite: 1]
+                Programme • پروگرام
               </span>
               
               <h4 class="text-2xl sm:text-3xl font-serif font-black tracking-wider gold-gradient-text uppercase">
-                Dawat-e-walima[cite: 1]
+                Dawat-e-walima
               </h4>
-              <p class="font-urdu text-lg text-amber-200 font-bold -mt-0.5 mb-2">دعوتِ ولیمہ[cite: 1]</p>
+              <p class="font-urdu text-lg text-amber-200 font-bold -mt-0.5 mb-2">دعوتِ ولیمہ</p>
               
               <div class="flex flex-col sm:flex-row items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-white my-2">
                 <div class="flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-full border border-gold-500/40 shadow-sm w-full sm:w-auto justify-center">
                   <svg class="w-4 h-4 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                   </svg>
-                  <span>25 Oct. 2026, Sunday (اتوار)[cite: 1]</span>
+                  <span>25 Oct. 2026, Sunday (اتوار)</span>
                 </div>
 
                 <div class="flex items-center gap-1.5 bg-black/50 px-3 py-1.5 rounded-full border border-gold-500/40 shadow-sm w-full sm:w-auto justify-center">
                   <svg class="w-4 h-4 text-gold-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
-                  <span>At: 12:00 Noon (۱۲ بجے دن)[cite: 1]</span>
+                  <span>At: 12:00 Noon (۱۲ بجے دن)</span>
                 </div>
               </div>
 
               <div class="mt-2.5 pt-2 border-t border-gold-500/20 text-xs">
                 <p class="text-gold-300 font-bold uppercase tracking-wider text-[11px] mb-0.5">📍 Venue / بمقام :</p>
-                <p class="text-white font-medium">Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar (U.P.)[cite: 1]</p>
-                <p class="font-urdu text-amber-200/90 text-sm mt-0.5">مقام: جمدی پوسٹ کسمہی ضلع سدھارتھ نگر[cite: 1]</p>
+                <p class="text-white font-medium">Vill. Jimdi, Po. Kusmhi, Distt. Siddharth Nagar (U.P.)</p>
+                <p class="font-urdu text-amber-200/90 text-sm mt-0.5">مقام: جمدی پوسٹ کسمہی ضلع سدھارتھ نگر</p>
               </div>
             </div>
 
@@ -394,21 +406,21 @@
         <!-- RSVP & WBC -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left my-4 text-[11px] sm:text-xs animate-stagger-6">
           <div class="p-3 bg-black/35 rounded-lg border border-gold-500/20">
-            <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">R.S.V.P. (چشم براہاں)[cite: 1]</h5>
+            <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">R.S.V.P. (چشم براہاں)</h5>
             <p class="text-amber-100/80 leading-relaxed text-[10.5px]">
-              Abdur Gaffar Khan, Mohd. Nazeer Khan, Abdul Jabbar Khan, Raziuddin Khan, Mohd. Nafees Khan, Zaheer Ahmad Khan, Zubair Ahmad Khan, Mohd. Javed Khan, Mohd. Asif Khan &amp; All Relatives &amp; Friends.[cite: 1]
+              Abdur Gaffar Khan, Mohd. Nazeer Khan, Abdul Jabbar Khan, Raziuddin Khan, Mohd. Nafees Khan, Zaheer Ahmad Khan, Zubair Ahmad Khan, Mohd. Javed Khan, Mohd. Asif Khan &amp; All Relatives &amp; Friends.
             </p>
           </div>
 
           <div class="p-3 bg-black/35 rounded-lg border border-gold-500/20 flex flex-col justify-between">
             <div>
-              <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">W.B.C. From (الداعی)[cite: 1]</h5>
-              <p class="font-bold text-sm text-white">Abdur Rahim Khan[cite: 1]</p>
-              <p class="text-amber-200/80 text-[10.5px]">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar[cite: 1]</p>
+              <h5 class="text-gold-400 font-bold text-xs uppercase tracking-wider mb-1">W.B.C. From (الداعی)</h5>
+              <p class="font-bold text-sm text-white">Abdur Rahim Khan</p>
+              <p class="text-amber-200/80 text-[10.5px]">Vill. Jimdi Po. Kusmhi, Distt. Siddharth Nagar</p>
             </div>
             
             <div class="mt-2 pt-2 border-t border-gold-500/20 flex flex-wrap items-center justify-between gap-1">
-              <span class="text-gold-300 text-[11px] font-semibold">Mob: 8874996550[cite: 1]</span>
+              <span class="text-gold-300 text-[11px] font-semibold">Mob: 8874996550</span>
               <div class="flex gap-1.5">
                 <a href="tel:8874996550" class="px-2 py-0.5 bg-gold-500 hover:bg-gold-400 text-black text-[10px] font-bold rounded">
                   Call 1
@@ -461,21 +473,58 @@
 
   <script>
     /* =========================================================
-       AUDIO & WEB AUDIO CONTEXT (Mobile & Desktop Autoplay)
+       AUDIO & WEB AUDIO CONTEXT (Mobile Autoplay Unblocker)
        ========================================================= */
     const bgMusic = document.getElementById('weddingBgMusic');
+    const duaAudio = document.getElementById('duaAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     let isMusicPlaying = false;
+    let webAudioCtx = null;
+
+    function initWebAudio() {
+      try {
+        if (!webAudioCtx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) webAudioCtx = new AudioContext();
+        }
+        if (webAudioCtx && webAudioCtx.state === 'suspended') {
+          webAudioCtx.resume();
+        }
+      } catch (e) {}
+    }
+
+    function playHarmonicChime() {
+      try {
+        initWebAudio();
+        if (!webAudioCtx) return;
+        const freqs = [392, 523.25, 659.25, 783.99, 1046.50];
+        freqs.forEach((freq, i) => {
+          const osc = webAudioCtx.createOscillator();
+          const gain = webAudioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, webAudioCtx.currentTime + i * 0.09);
+          gain.gain.setValueAtTime(0.001, webAudioCtx.currentTime + i * 0.09);
+          gain.gain.linearRampToValueAtTime(0.08, webAudioCtx.currentTime + i * 0.09 + 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.0001, webAudioCtx.currentTime + i * 0.09 + 1.2);
+          osc.connect(gain);
+          gain.connect(webAudioCtx.destination);
+          osc.start(webAudioCtx.currentTime + i * 0.09);
+          osc.stop(webAudioCtx.currentTime + i * 0.09 + 1.3);
+        });
+      } catch (e) {}
+    }
 
     function playMusic() {
+      initWebAudio();
       bgMusic.play().then(() => {
         isMusicPlaying = true;
         musicIcon.textContent = '🔊';
         musicToggleBtn.classList.add('border-gold-400');
-        showToast('🎶 Playing Wedding Music');
-      }).catch((e) => {
-        console.log('Autoplay handled:', e);
+      }).catch(() => {
+        playHarmonicChime();
+        isMusicPlaying = true;
+        musicIcon.textContent = '🔊';
       });
     }
 
@@ -484,7 +533,6 @@
       isMusicPlaying = false;
       musicIcon.textContent = '🎵';
       musicToggleBtn.classList.remove('border-gold-400');
-      showToast('🔇 Music Paused');
     }
 
     musicToggleBtn.addEventListener('click', (e) => {
@@ -493,119 +541,86 @@
       else playMusic();
     });
 
-    /* =========================================================
-       1. GUARANTEED WORKING VOICE DUA (LAPTOP + MOBILE FIXED)
+    
+   /* =========================================================
+       1. REAL DUA AUDIO PLAYER (USING YOUR IMPORTED FILE)
        ========================================================= */
     const voiceDuaBtn = document.getElementById('voiceDuaBtn');
     const voiceDuaIcon = document.getElementById('voiceDuaIcon');
     const voiceDuaLabel = document.getElementById('voiceDuaLabel');
     const coupleVoiceCard = document.getElementById('coupleVoiceCard');
     let isSpeakingDua = false;
-    let allVoices = [];
-
-    function loadSystemVoices() {
-      if ('speechSynthesis' in window) {
-        allVoices = window.speechSynthesis.getVoices();
-      }
-    }
-    loadSystemVoices();
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = loadSystemVoices;
-    }
-
-    function pickAppropriateVoice() {
-      if (!allVoices || allVoices.length === 0) loadSystemVoices();
-      // Look for Indian English, Urdu, or Hindi natural voice
-      const preferred = allVoices.find(v => 
-        v.lang && (v.lang.includes('hi') || v.lang.includes('ur') || v.lang.includes('en-IN') || v.name.includes('India'))
-      );
-      return preferred || (allVoices.length > 0 ? allVoices[0] : null);
-    }
 
     function resetVoiceDuaUI() {
       isSpeakingDua = false;
-      if (voiceDuaIcon) voiceDuaIcon.classList.remove('speaking-active');
+      if (voiceDuaIcon) {
+        voiceDuaIcon.classList.remove('speaking-active');
+        voiceDuaIcon.textContent = '🎙️';
+      }
       if (voiceDuaLabel) voiceDuaLabel.textContent = 'Voice Dua';
+      
+      // Dua khatam hote hi background music wapas 100% volume par
       if (bgMusic && !bgMusic.paused) {
         bgMusic.volume = 1.0;
       }
     }
 
     function speakWeddingDua() {
-      if (!('speechSynthesis' in window)) {
-        showToast('Speech API not supported');
+      if (!duaAudio) return;
+
+      // Agar pehle se chal raha hai toh dobara click karne par pause kar dega
+      if (isSpeakingDua) {
+        duaAudio.pause();
+        duaAudio.currentTime = 0;
+        resetVoiceDuaUI();
         return;
       }
 
-      if (isSpeakingDua) return;
       isSpeakingDua = true;
+      if (voiceDuaIcon) {
+        voiceDuaIcon.classList.add('speaking-active');
+        voiceDuaIcon.textContent = '🔊';
+      }
+      if (voiceDuaLabel) voiceDuaLabel.textContent = 'Playing Dua...';
 
-      // Lower background music volume smoothly
+      // Dua saaf sunai de isliye background music 15% volume par karein
       if (bgMusic && !bgMusic.paused) {
         bgMusic.volume = 0.15;
       }
 
-      voiceDuaIcon.classList.add('speaking-active');
-      voiceDuaLabel.textContent = 'Reciting...';
-
-      window.speechSynthesis.cancel();
-
-      // Text with phonetic pronunciation so all browser engines speak naturally
-      const coupleAnnouncement = "Hafiz Mohammad Junaid Khan aur Umme Salma Khan.";
-      const masnoonDua = "Baarak Allaho laka, wa baaraka alaika, wa jama'a baynakuma fee khayr.";
-
-      const utterIntro = new SpeechSynthesisUtterance(coupleAnnouncement);
-      const utterDua = new SpeechSynthesisUtterance(masnoonDua);
-
-      const targetVoice = pickAppropriateVoice();
-      if (targetVoice) {
-        utterIntro.voice = targetVoice;
-        utterDua.voice = targetVoice;
-      }
-
-      utterIntro.rate = 0.85;
-      utterIntro.pitch = 1.0;
-      utterDua.rate = 0.80; // Slower, solemn dua recitation pace
-      utterDua.pitch = 0.95;
-
-      utterIntro.onend = () => {
-        setTimeout(() => {
-          window.speechSynthesis.speak(utterDua);
-        }, 300);
-      };
-
-      utterDua.onend = () => {
-        resetVoiceDuaUI();
-      };
-
-      utterIntro.onerror = () => {
-        resetVoiceDuaUI();
-      };
-
-      utterDua.onerror = () => {
-        resetVoiceDuaUI();
-      };
-
-      // Toast Notification
       showToast('🤲 بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
 
-      // Speak Announcement first, then Dua
-      window.speechSynthesis.speak(utterIntro);
+      duaAudio.currentTime = 0;
+      const playPromise = duaAudio.play();
 
-      // Safety timeout in case browser gets suspended
-      setTimeout(() => {
-        if (isSpeakingDua) resetVoiceDuaUI();
-      }, 7000);
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          console.error("Audio playback error:", error);
+          resetVoiceDuaUI();
+          showToast('⚠️ Audio play nahi ho paya. File path check karein.');
+        });
+      }
     }
 
-    voiceDuaBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      speakWeddingDua();
-    });
+    // Audio khatam hone par automatic reset
+    if (duaAudio) {
+      duaAudio.addEventListener('ended', resetVoiceDuaUI);
+      duaAudio.addEventListener('pause', resetVoiceDuaUI);
+    }
 
-    coupleVoiceCard.addEventListener('click', () => {
-      speakWeddingDua();
-    });
+    // Button and Card Click Listeners
+    if (voiceDuaBtn) {
+      voiceDuaBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speakWeddingDua();
+      });
+    }
+
+    if (coupleVoiceCard) {
+      coupleVoiceCard.addEventListener('click', () => {
+        speakWeddingDua();
+      });
+    }
 
     /* =========================================================
        3. ENVELOPE OPEN / CLOSE HANDLER
@@ -623,8 +638,23 @@
       if (envelopeIsOpen) return;
       envelopeIsOpen = true;
 
-      // Start music
+      /*
+        CRITICAL MOBILE AUTOPLAY FIX
+
+        Both music and dua are started inside the original tap/click
+        handler. The dua must NOT be launched from setTimeout() because
+        that loses the browser's user-gesture permission on many phones.
+      */
+
+      // Start with the music already ducked, so there is no loud burst.
+      if (bgMusic) {
+        bgMusic.volume = DUA_MUSIC_VOLUME;
+      }
       playMusic();
+
+      // Start the real recorded Dua immediately from the same gesture.
+      duaStartedFromOpenGesture = true;
+      speakWeddingDua();
 
       envelopeContainer.classList.add('envelope-open');
       waxSealBtn.style.opacity = '0';
@@ -645,11 +675,6 @@
             recloseEnvelopeBtn.classList.remove('hidden');
 
             initScratchCanvas();
-
-            // Card aane ke turant baad Dua bolna shuru karega
-            setTimeout(() => {
-              speakWeddingDua();
-            }, 600);
           });
         }, 500);
       }, 650);
@@ -658,6 +683,9 @@
     function recloseEnvelope() {
       if (!envelopeIsOpen) return;
       envelopeIsOpen = false;
+
+      stopWeddingDua();
+
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
 
       weddingCardWrapper.style.opacity = '0';
@@ -800,6 +828,8 @@
     function revealVenueWithConfetti() {
       if (isVenueRevealed) return;
       isVenueRevealed = true;
+
+      playHarmonicChime();
 
       scratchCanvas.style.opacity = '0';
       quickRevealControl.style.opacity = '0';
@@ -1038,7 +1068,6 @@
       resizePetalsCanvas();
       initPetals();
       animatePetals();
-      loadSystemVoices();
     });
 
     window.addEventListener('resize', () => {
